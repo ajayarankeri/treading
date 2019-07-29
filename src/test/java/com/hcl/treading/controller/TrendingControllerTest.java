@@ -112,6 +112,7 @@ public class TrendingControllerTest {
 
 	@Test
 	public void confirmPurchaseStockControllerTest() throws ResourceNotFoundException {
+
 		assertNotNull(treadingController.confirmPurchaseStock(confirmPurchaseDto));
 	}
 	
