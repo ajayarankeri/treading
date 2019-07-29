@@ -20,6 +20,7 @@ import com.hcl.treading.entity.DmateAccount;
 import com.hcl.treading.entity.Stock;
 import com.hcl.treading.entity.StockPurchase;
 import com.hcl.treading.entity.StockTransaction;
+import com.hcl.treading.exception.NoOrderFoundException;
 import com.hcl.treading.exception.ResourceNotFoundException;
 import com.hcl.treading.serviceimpl.TreadingServiceImpl;
 
@@ -114,4 +115,8 @@ public class TrendingControllerTest {
 		assertNotNull(treadingController.purchaseStock(stockPurchaseDto));
 	}
 	
+	@Test
+	public void orderHistoryTest() throws ResourceNotFoundException, NoOrderFoundException {
+		assertNotNull(treadingController.orderHistory(1l));
+	}
 }

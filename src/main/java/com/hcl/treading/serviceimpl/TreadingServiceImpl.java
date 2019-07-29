@@ -19,7 +19,6 @@ import com.hcl.treading.repository.DmateAccountRepository;
 import com.hcl.treading.repository.StockPurchaseRepository;
 import com.hcl.treading.repository.StockRepository;
 import com.hcl.treading.repository.StockTransactionRepository;
-import com.hcl.treading.repository.StrockPurchaseRepository;
 import com.hcl.treading.repository.TradingRepository;
 import com.hcl.treading.service.TreadingService;
 
@@ -35,9 +34,7 @@ public class TreadingServiceImpl implements TreadingService{
 	@Autowired
 	StockTransactionRepository stockTransactionRepository;
 	
-	@Autowired
-	StockPurchaseRepository stockPurchaseRepository;
-
+	
 	@Autowired
 	StockRepository stockRepository;
 	
@@ -45,7 +42,7 @@ public class TreadingServiceImpl implements TreadingService{
 	DmateAccountRepository dmateAccountRepository;
 	
 	@Autowired
-	StrockPurchaseRepository strockPurchaseRepository;
+	StockPurchaseRepository stockPurchaseRepository;
 	
 	@Override
 	public ResponseDto purchaseStock(StockPurchaseDto stockPurchaseDto) throws ResourceNotFoundException {
@@ -86,10 +83,10 @@ public class TreadingServiceImpl implements TreadingService{
 	@Override
 	public ResponseDto orderHistory(Long customerId) throws ResourceNotFoundException, NoOrderFoundException {
 		Customer customer = customerRepository.findById(customerId).orElseThrow(()-> new ResourceNotFoundException("Customer not found"));
-		if(strockPurchaseRepository.findByCustomerIdOrderByPurchaseDateDesc(customer).isEmpty()) {
+		if(stockPurchaseRepository.findByCustomerIdOrderByPurchaseDateDesc(customer).isEmpty()) {
 			throw new NoOrderFoundException("customer has not purchased any stocks yet. Please purchase stocks");
 		}
-		return new ResponseDto("Successfull",300,strockPurchaseRepository.findByCustomerIdOrderByPurchaseDateDesc(customer));
+		return new ResponseDto("Successfull",300,stockPurchaseRepository.findByCustomerIdOrderByPurchaseDateDesc(customer));
 	}
 
 }

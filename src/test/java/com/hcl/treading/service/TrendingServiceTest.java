@@ -23,6 +23,7 @@ import com.hcl.treading.entity.DmateAccount;
 import com.hcl.treading.entity.Stock;
 import com.hcl.treading.entity.StockPurchase;
 import com.hcl.treading.entity.StockTransaction;
+import com.hcl.treading.exception.NoOrderFoundException;
 import com.hcl.treading.exception.ResourceNotFoundException;
 import com.hcl.treading.repository.CustomerRepository;
 import com.hcl.treading.repository.DmateAccountRepository;
@@ -155,5 +156,16 @@ public class TrendingServiceTest {
 		assertNotNull(treadingService.purchaseStock(stockPurchaseDto));
 	}
 	
+	@Test(expected = NoOrderFoundException.class)
+	public void orderHistoryTest() throws ResourceNotFoundException, NoOrderFoundException {
+		Mockito.when(customerRepository.findById(2l)).thenReturn(Optional.of(customer));
+		assertNotNull(treadingService.orderHistory(2l));
+	}
+	
+	@Test(expected = NoOrderFoundException.class)
+	public void orderHistoryFailTest() throws ResourceNotFoundException, NoOrderFoundException {
+		Mockito.when(customerRepository.findById(1l)).thenReturn(Optional.of(customer));
+		assertNotNull(treadingService.orderHistory(1l));
+	}
 
 }
