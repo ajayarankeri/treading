@@ -6,7 +6,9 @@ import org.springframework.stereotype.Repository;
 import com.hcl.treading.entity.Stock;
 
 @Repository
+
 public interface StockRepository extends JpaRepository<Stock, Long>{
+
 
 
 }
