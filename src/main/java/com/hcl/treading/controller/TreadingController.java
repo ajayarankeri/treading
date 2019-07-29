@@ -6,10 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hcl.treading.dto.ConfirmPurchaseDto;
 import com.hcl.treading.dto.StockPurchaseDto;
+import com.hcl.treading.exception.NoOrderFoundException;
 import com.hcl.treading.exception.ResourceNotFoundException;
 import com.hcl.treading.service.TreadingService;
 
@@ -31,6 +33,12 @@ public class TreadingController {
 	public ResponseEntity<Object> confirmPurchaseStock(@RequestBody ConfirmPurchaseDto confirmPurchaseDto) throws ResourceNotFoundException {
 				
 		return new ResponseEntity<>(treadingService.confirmPurchaseStock(confirmPurchaseDto),HttpStatus.OK);
+		
+	}
+	
+	@PostMapping("/history")
+	public ResponseEntity<Object> orderHistory(@RequestParam Long customerId ) throws ResourceNotFoundException, NoOrderFoundException {
+		return new ResponseEntity<>(treadingService.orderHistory(customerId),HttpStatus.OK);
 		
 	}
 	

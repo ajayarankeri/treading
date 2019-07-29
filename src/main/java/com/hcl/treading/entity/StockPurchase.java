@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Data;
 
 @Entity
@@ -22,6 +24,7 @@ public class StockPurchase {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="purchase_id")
+	@JsonProperty("Order id")
 	private Long purchaseId;
 	
 	@OneToOne(fetch = FetchType.EAGER)
