@@ -49,5 +49,7 @@ public class StockPurchase {
 	
 	@Column(name="purchase_date")
 	private LocalDateTime purchaseDate;
+
+
 	
 }
