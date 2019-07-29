@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hcl.treading.dto.StockPurchaseDto;
+import com.hcl.treading.exception.ResourceNotFoundException;
 import com.hcl.treading.service.TreadingService;
 
 @RestController
@@ -17,7 +18,7 @@ public class TreadingController {
 	TreadingService treadingService;
 	
 	@PostMapping("/purchase")
-	public void purchaseStock(@RequestBody StockPurchaseDto stockPurchaseDto) {
+	public void purchaseStock(@RequestBody StockPurchaseDto stockPurchaseDto) throws ResourceNotFoundException {
 		
 		treadingService.purchaseStock(stockPurchaseDto);
 		

@@ -31,17 +31,8 @@ public class StockTransaction {
 	@Column(name="stock_open")
 	private Float stockOpen;
 	
-	@Column(name="stock_high")
-	private Float stockHigh;
-	
-	@Column(name="stock_low")
-	private Float stockLow;
-	
-	@Column(name="stock_closed")
-	private Float stockClosed;
-	
-	@Column(name="stock_volume")
-	private Integer stockVolume;
+	@Column(name="per_price")
+	private Double perPrice;
 	
 	@Column(name="last_updated")
 	private LocalDateTime lastUpdated;
