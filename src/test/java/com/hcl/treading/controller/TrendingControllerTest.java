@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.hcl.treading.dto.ConfirmPurchaseDto;
 import com.hcl.treading.dto.StockPurchaseDto;
 import com.hcl.treading.entity.Customer;
 import com.hcl.treading.entity.DmateAccount;
@@ -40,10 +41,14 @@ public class TrendingControllerTest {
 	DmateAccount dmateAccount,dmateAccount1;
 	List<StockPurchase> stockPurchaseList;
 	StockPurchaseDto stockPurchaseDto;
-	
+	ConfirmPurchaseDto confirmPurchaseDto;
 	
 	@Before
 	public void setMockData() {
+		
+		
+		confirmPurchaseDto=new ConfirmPurchaseDto();
+		confirmPurchaseDto.setPurchaseId(1l);
 		
 		stockPurchaseDto=new StockPurchaseDto();
 		stockPurchaseDto.setCustomerId(1l);
@@ -107,7 +112,7 @@ public class TrendingControllerTest {
 
 	@Test
 	public void confirmPurchaseStockControllerTest() throws ResourceNotFoundException {
-		assertNotNull(treadingController.confirmPurchaseStock(stockPurchaseDto));
+		assertNotNull(treadingController.confirmPurchaseStock(confirmPurchaseDto));
 	}
 	
 	@Test

@@ -17,6 +17,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.hcl.treading.dto.ConfirmPurchaseDto;
 import com.hcl.treading.dto.StockPurchaseDto;
 import com.hcl.treading.entity.Customer;
 import com.hcl.treading.entity.DmateAccount;
@@ -63,10 +64,14 @@ public class TrendingServiceTest {
 	DmateAccount dmateAccount,dmateAccount1;
 	List<StockPurchase> stockPurchaseList;
 	StockPurchaseDto stockPurchaseDto;
-	
+    ConfirmPurchaseDto confirmPurchaseDto;
 	
 	@Before
 	public void setMockData() {
+		
+		
+		confirmPurchaseDto=new ConfirmPurchaseDto();
+		confirmPurchaseDto.setPurchaseId(1l);
 		
 		stockPurchaseDto=new StockPurchaseDto();
 		stockPurchaseDto.setCustomerId(1l);
@@ -166,6 +171,21 @@ public class TrendingServiceTest {
 	public void orderHistoryFailTest() throws ResourceNotFoundException, NoOrderFoundException {
 		Mockito.when(customerRepository.findById(1l)).thenReturn(Optional.of(customer));
 		assertNotNull(treadingService.orderHistory(1l));
+	}
+	
+	@Test
+	public void confirmPurchaseOrderTest() throws ResourceNotFoundException {
+		Mockito.when(stockPurchaseRepository.findById(1l)).thenReturn(Optional.of(stockPurchase));
+		Mockito.when(stockTransactionRepository.findById(1l)).thenReturn(Optional.of(stockTransaction));
+		Mockito.when(dmateAccountRepository.findById(1l)).thenReturn(Optional.of(dmateAccount));
+		
+        assertNotNull(treadingService.confirmPurchaseStock(confirmPurchaseDto));	
+	}
+
+	@Test(expected = ResourceNotFoundException.class)
+	public void confirmPurchaseOrderFailTest() throws ResourceNotFoundException {
+		Mockito.when(stockPurchaseRepository.findById(3l)).thenReturn(Optional.of(stockPurchase));	
+        assertNotNull(treadingService.confirmPurchaseStock(confirmPurchaseDto));	
 	}
 
 }
