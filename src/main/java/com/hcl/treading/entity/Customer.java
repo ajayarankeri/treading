@@ -23,28 +23,27 @@ public class Customer {
 	@Column(name="customer_id")
 	private Long customerId;	
 	
-	@Column(name="full_name")
-	@JsonIgnore
+	@Column(name="full_name")	
 	private String fullName;
 	
-	@Column(name="birth_date")
 	@JsonIgnore
+	@Column(name="birth_date")	
 	private LocalDate birthDate;
 	
-	@Column(name="gender")
 	@JsonIgnore
+	@Column(name="gender")	
 	private String gender;
 	
-	@Column(name="mobile_no")
 	@JsonIgnore
+	@Column(name="mobile_no")	
 	private String mobileNo;
 	
-	@Column(name="email")
 	@JsonIgnore
+	@Column(name="email")	
 	private String email;
 	
-	@Column(name="address")
 	@JsonIgnore
+	@Column(name="address")	
 	private String address;
 	
 }

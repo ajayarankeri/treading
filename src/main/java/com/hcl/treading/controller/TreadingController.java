@@ -1,6 +1,8 @@
 package com.hcl.treading.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,10 +20,18 @@ public class TreadingController {
 	TreadingService treadingService;
 	
 	@PostMapping("/purchase")
-	public void purchaseStock(@RequestBody StockPurchaseDto stockPurchaseDto) throws ResourceNotFoundException {
-		
-		treadingService.purchaseStock(stockPurchaseDto);
+	public ResponseEntity<Object> purchaseStock(@RequestBody StockPurchaseDto stockPurchaseDto) throws ResourceNotFoundException {
+				
+		return new ResponseEntity<>(treadingService.purchaseStock(stockPurchaseDto),HttpStatus.OK);
 		
 	}
+	
+	@PostMapping("/confirm")
+	public ResponseEntity<Object> confirmPurchaseStock(@RequestBody StockPurchaseDto stockPurchaseDto) throws ResourceNotFoundException {
+				
+		return new ResponseEntity<>(treadingService.purchaseStock(stockPurchaseDto),HttpStatus.OK);
+		
+	}
+	
 
 }
