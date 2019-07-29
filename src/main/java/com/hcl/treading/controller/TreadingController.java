@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hcl.treading.dto.ConfirmPurchaseDto;
 import com.hcl.treading.dto.StockPurchaseDto;
 import com.hcl.treading.exception.ResourceNotFoundException;
 import com.hcl.treading.service.TreadingService;
@@ -27,9 +28,9 @@ public class TreadingController {
 	}
 	
 	@PostMapping("/confirm")
-	public ResponseEntity<Object> confirmPurchaseStock(@RequestBody StockPurchaseDto stockPurchaseDto) throws ResourceNotFoundException {
+	public ResponseEntity<Object> confirmPurchaseStock(@RequestBody ConfirmPurchaseDto confirmPurchaseDto) throws ResourceNotFoundException {
 				
-		return new ResponseEntity<>(treadingService.purchaseStock(stockPurchaseDto),HttpStatus.OK);
+		return new ResponseEntity<>(treadingService.confirmPurchaseStock(confirmPurchaseDto),HttpStatus.OK);
 		
 	}
 	

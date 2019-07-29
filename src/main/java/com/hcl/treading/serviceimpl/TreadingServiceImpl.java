@@ -1,10 +1,13 @@
 package com.hcl.treading.serviceimpl;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
+import com.hcl.treading.dto.ConfirmPurchaseDto;
 import com.hcl.treading.dto.ResponseDto;
 import com.hcl.treading.dto.StockPurchaseDto;
 import com.hcl.treading.entity.Customer;
@@ -63,10 +66,10 @@ public class TreadingServiceImpl implements TreadingService{
 					stockPurchaseDetails.setFees(0.20);
 					stockPurchaseDetails.setTotalFee(0.20*stockPurchaseDto.getQuantity());
 					stockPurchaseDetails.setUnit(stockPurchaseDto.getQuantity());
-		
-					accountDetails.setBalance(accountDetails.getBalance()-(stockTransactionDtails.getPerPrice()*stockPurchaseDto.getQuantity()));
+					System.out.println("Before Confirmation time price:  "+stockTransactionDtails.getPerPrice());
+					// accountDetails.setBalance(accountDetails.getBalance()-(stockTransactionDtails.getPerPrice()*stockPurchaseDto.getQuantity()));
 				    stockPurchaseRepository.save(stockPurchaseDetails);
-				    dmateAccountRepository.save(accountDetails);				    
+				   // dmateAccountRepository.save(accountDetails);				    
 			}else {
 				throw new ResourceNotFoundException("Your Dmate account does not have sufficient balance");
 			}
@@ -76,6 +79,42 @@ public class TreadingServiceImpl implements TreadingService{
 			return new ResponseDto("sucess", 200, stockPurchaseDetails);
 		else
 			return new ResponseDto("sucess", 300, "Please verify your entered details");
+	}
+
+	@Override
+	public ResponseDto confirmPurchaseStock(ConfirmPurchaseDto confirmPurchaseDto) throws ResourceNotFoundException {
+		Optional<StockPurchase> stockPurchaseDetails=stockPurchaseRepository.findById(confirmPurchaseDto.getPurchaseId());
+		 StockPurchase purchaseDetailsBefore=null;
+		
+		 if(ObjectUtils.isEmpty(stockPurchaseDetails.get())) {
+			 throw new ResourceNotFoundException("Your Dmate account does not have sufficient balance");					
+		 
+		 }else {					
+					purchaseDetailsBefore=stockPurchaseDetails.get();
+					 
+					StockTransaction stockTransactionDtails=stockTransactionRepository.findById(purchaseDetailsBefore.getStockId().getStockId()).orElseThrow(()->new ResourceNotFoundException("Stock Values are not defined"));
+					DmateAccount accountDetails=dmateAccountRepository.findById(purchaseDetailsBefore.getCustomerId().getCustomerId()).orElseThrow(()->new ResourceNotFoundException("Your Dmate Account Not Found"));
+					
+					if(accountDetails.getBalance()>stockTransactionDtails.getPerPrice()*purchaseDetailsBefore.getUnit()) {
+						if(purchaseDetailsBefore.getPurchaseStatus()==1) {
+							 throw new ResourceNotFoundException("Your have already confirm");
+						}else {
+						purchaseDetailsBefore.setPurchaseStatus(1);
+						purchaseDetailsBefore.setPurchaseAmount(stockTransactionDtails.getPerPrice()*purchaseDetailsBefore.getUnit());
+						System.out.println("Confirmation time price:  "+stockTransactionDtails.getPerPrice());
+						accountDetails.setBalance(accountDetails.getBalance()-(stockTransactionDtails.getPerPrice()*purchaseDetailsBefore.getUnit()));
+						
+						stockPurchaseRepository.save(purchaseDetailsBefore);
+					    dmateAccountRepository.save(accountDetails);
+						}
+				}else {
+					 throw new ResourceNotFoundException("Your Dmate account does not have sufficient balance");
+				}
+				
+		 }
+		
+		 return new ResponseDto("sucess", 200, purchaseDetailsBefore);
+		
 	}
 
 }
