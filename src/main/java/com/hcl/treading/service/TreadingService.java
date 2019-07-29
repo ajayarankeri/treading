@@ -1,8 +1,12 @@
 package com.hcl.treading.service;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+import com.hcl.treading.dto.StockPurchaseDto;
+
+@Component
 public interface TreadingService {
+
+	void purchaseStock(StockPurchaseDto stockPurchaseDto);
 
 }
