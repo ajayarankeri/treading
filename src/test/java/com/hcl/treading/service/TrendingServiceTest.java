@@ -96,7 +96,7 @@ public class TrendingServiceTest {
 		dmateAccount=new DmateAccount();
 		dmateAccount.setAccountNumber(Long.valueOf(1));
 		dmateAccount.setAccountType("dmate");
-		dmateAccount.setBalance(Double.valueOf(23));
+		dmateAccount.setBalance(Double.valueOf(9000));
 		dmateAccount.setCustomerId(customer);
 		dmateAccount.setId(Long.valueOf(1));
 		
@@ -187,5 +187,15 @@ public class TrendingServiceTest {
 		Mockito.when(stockPurchaseRepository.findById(3l)).thenReturn(Optional.of(stockPurchase));	
         assertNotNull(treadingService.confirmPurchaseStock(confirmPurchaseDto));	
 	}
+	
+	@Test(expected = ResourceNotFoundException.class)
+	public void confirmPurchaseOrderFailSecondTest() throws ResourceNotFoundException {
+		Mockito.when(stockPurchaseRepository.findById(1l)).thenReturn(Optional.of(stockPurchase));
+		Mockito.when(stockTransactionRepository.findById(1l)).thenReturn(Optional.of(stockTransaction));
+		Mockito.when(dmateAccountRepository.findById(1l)).thenReturn(Optional.of(dmateAccount));
+			
+        assertNotNull(treadingService.confirmPurchaseStock(confirmPurchaseDto));	
+	}
+
 
 }
