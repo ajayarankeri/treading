@@ -3,9 +3,10 @@ package com.hcl.treading.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.hcl.treading.entity.StockTransaction;
+import com.hcl.treading.entity.Customer;
 
 @Repository
-public interface TreadingRepository extends JpaRepository<StockTransaction, Long>{
+public interface CustomerRepository extends JpaRepository<Customer, Long>{
+
 
 }

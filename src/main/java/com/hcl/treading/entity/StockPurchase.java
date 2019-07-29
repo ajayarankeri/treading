@@ -41,6 +41,12 @@ public class StockPurchase {
 	@Column(name="purchase_status")
 	private int purchaseStatus;
 	
+	@Column(name="fees")
+	private Double fees;
+	
+	@Column(name="total_fee")
+	private Double totalFee;
+	
 	@Column(name="purchase_date")
 	private LocalDateTime purchaseDate;
 	
