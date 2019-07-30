@@ -1,7 +1,6 @@
 package com.hcl.treading.serviceimpl;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +14,7 @@ import com.hcl.treading.entity.Stock;
 import com.hcl.treading.entity.StockPurchase;
 import com.hcl.treading.entity.StockTransaction;
 import com.hcl.treading.exception.NoOrderFoundException;
+import com.hcl.treading.exception.NoStockAvailableException;
 import com.hcl.treading.exception.ResourceNotFoundException;
 import com.hcl.treading.repository.CustomerRepository;
 import com.hcl.treading.repository.DmateAccountRepository;
@@ -45,6 +45,16 @@ public class TreadingServiceImpl implements TreadingService{
 	
 	@Autowired
 	StockPurchaseRepository stockPurchaseRepository;
+	
+	
+	@Override
+	public ResponseDto getStockList() throws NoStockAvailableException {
+		if(stockRepository.findAll().isEmpty()) {
+			throw new NoStockAvailableException("No Stock Available");
+		}
+		return new ResponseDto("List of Stocks",300,stockRepository.findAll());
+	}
+	
 	
 	@Override
 	public ResponseDto purchaseStock(StockPurchaseDto stockPurchaseDto) throws ResourceNotFoundException {

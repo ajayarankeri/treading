@@ -33,7 +33,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	    public final ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {   
 		 List<String> details = new ArrayList<>();
 	        details.add(ex.getMessage());	        
-	        return new ResponseEntity<>(new ErrorResponse("Server Error", details,Integer.toString(301)), HttpStatus.NOT_FOUND);
+	        return new ResponseEntity<>(new ErrorResponse("Not found", details,Integer.toString(301)), HttpStatus.NOT_FOUND);
 	    }
 	
 	@ExceptionHandler(NoOrderFoundException.class)
@@ -43,5 +43,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	        details.add(ex.getMessage());	        
 	        return new ResponseEntity<>(new ErrorResponse("Server Error", details,Integer.toString(302)), HttpStatus.NOT_FOUND);
 	    }
+	@ExceptionHandler(NoStockAvailableException.class)
+	@ResponseStatus(value=HttpStatus.NOT_FOUND)
+		public final ResponseEntity<ErrorResponse> noStockAvailableException(NoStockAvailableException ex, WebRequest request){
+		List<String> details = new ArrayList<>();
+		details.add(ex.getMessage());
+		return new ResponseEntity<>(new ErrorResponse("no stock",details,Integer.toString(303)),HttpStatus.NOT_FOUND);
+	}
 	
 }

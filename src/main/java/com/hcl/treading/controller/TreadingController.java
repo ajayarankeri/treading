@@ -3,6 +3,7 @@ package com.hcl.treading.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hcl.treading.dto.ConfirmPurchaseDto;
 import com.hcl.treading.dto.StockPurchaseDto;
 import com.hcl.treading.exception.NoOrderFoundException;
+import com.hcl.treading.exception.NoStockAvailableException;
 import com.hcl.treading.exception.ResourceNotFoundException;
 import com.hcl.treading.service.TreadingService;
 
@@ -21,6 +23,11 @@ public class TreadingController {
 	
 	@Autowired
 	TreadingService treadingService;
+	
+	@GetMapping("/stocklist")
+	public ResponseEntity<Object> getStockList()throws NoStockAvailableException{
+		return new ResponseEntity<>(treadingService.getStockList(),HttpStatus.OK);
+	}
 	
 	@PostMapping("/purchase")
 	public ResponseEntity<Object> purchaseStock(@RequestBody StockPurchaseDto stockPurchaseDto) throws ResourceNotFoundException {
